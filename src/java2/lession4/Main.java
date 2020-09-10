@@ -32,6 +32,16 @@ public class Main {
             }
         });
         t2.start();
+        
+        Thread t3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 100; i++) {
+                    System.out.println("Thread 2 > " + i);
+                }
+            }
+        });
+        t3.start();
         System.out.println("end");
     }
     
