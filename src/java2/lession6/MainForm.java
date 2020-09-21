@@ -5,17 +5,29 @@
  */
 package java2.lession6;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
+
+
 /**
  *
  * @author ACER
  */
 public class MainForm extends javax.swing.JFrame {
+    
+
+    List<Student> studentList = new ArrayList<>();
+    
+    DefaultTableModel tableModel;
 
     /**
      * Creates new form MainForm
      */
     public MainForm() {
         initComponents();
+        tableModel = (DefaultTableModel) tblStudentList.getModel();
     }
 
     /**
@@ -36,12 +48,20 @@ public class MainForm extends javax.swing.JFrame {
         txt_email = new javax.swing.JTextField();
         btn_save = new javax.swing.JButton();
         btn_reset = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblStudentList = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Nhap thong tin sinh vien"));
 
         jLabel1.setText("Ho Ten");
+
+        txt_hoten.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_hotenActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Dia Chi");
 
@@ -60,6 +80,38 @@ public class MainForm extends javax.swing.JFrame {
                 btn_resetActionPerformed(evt);
             }
         });
+
+        tblStudentList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Ho Ten", "Dia Chi", "Email"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblStudentList);
+        if (tblStudentList.getColumnModel().getColumnCount() > 0) {
+            tblStudentList.getColumnModel().getColumn(0).setResizable(false);
+            tblStudentList.getColumnModel().getColumn(0).setHeaderValue("Ho Ten");
+            tblStudentList.getColumnModel().getColumn(1).setHeaderValue("Dia Chi");
+            tblStudentList.getColumnModel().getColumn(2).setResizable(false);
+            tblStudentList.getColumnModel().getColumn(2).setHeaderValue("Email");
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -83,7 +135,8 @@ public class MainForm extends javax.swing.JFrame {
                         .addComponent(btn_save)
                         .addGap(18, 18, 18)
                         .addComponent(btn_reset)))
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,6 +157,8 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_save)
                     .addComponent(btn_reset))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -112,15 +167,16 @@ public class MainForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(113, 113, 113)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 157, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -138,8 +194,15 @@ public class MainForm extends javax.swing.JFrame {
         String fullname = txt_hoten.getText().toString();
         String address = txt_diachi.getText().toString();
         String email = txt_email.getText().toString();
-        System.out.println(fullname + " " + address + " " + email);
+        Student std = new Student(fullname, address, email);
+        studentList.add(std);
+        
+        tableModel.addRow(new String[]{fullname, address, email});
     }//GEN-LAST:event_btn_saveActionPerformed
+
+    private void txt_hotenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_hotenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_hotenActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,6 +246,8 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblStudentList;
     private javax.swing.JTextField txt_diachi;
     private javax.swing.JTextField txt_email;
     private javax.swing.JTextField txt_hoten;
